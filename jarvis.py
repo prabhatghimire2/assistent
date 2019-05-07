@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# Requires PyAudio and PySpeech.
+
 import pyttsx3
 import os
 import datetime
@@ -5,19 +8,17 @@ import speech_recognition as sr
 import wikipedia
 import webbrowser
 import smtplib
+import time
 
 contact_list = {'prabhat': 'prabhu10612@gmail.com'}
 app_list = {'sublime' : 'subl', 'blender': 'blender', 'gimp':'gimp', 'firefox':'firefox','':''}
 
-
 # sapi5, nsss, espeak
-engine = pyttsx3.init()
+engine = pyttsx3.init('espeak')
 voices = engine.getProperty('voices')
 # print(voices)
-# for voice of girl
-# engine.setProperty('voice', voices[1])
-# for voice of boy
-engine.setProperty('voice', voices[0].id)
+# for voice of girl voices[1]
+engine.setProperty('voice', voices[0])
 
 def sendEmail(to, content):
     '''send email'''
@@ -53,11 +54,11 @@ def takeCommand():
     with sr.Microphone() as source:
         print('Listening...')
         r.pause_threshold = 1
-        audio = r.listen(source)
+        audio = r.record(source, duration=4)
 
     try:
         print('Recognizing...')
-        query = r.recognize_google(audio, Language = 'en-US')
+        query = r.recognize_google(audio)
         print(f'User said {query}\n')
     except Exception as e:
         # print(e)
@@ -71,11 +72,13 @@ def takeCommand():
 
 if __name__ == '__main__':
     # main()
+    # initialization
     wishme()
+    # time.sleep(2)
     # while True:
     if True :
-        # query = takeCommand().lower()
-        query = 'open sublime app'
+        query = takeCommand().lower()
+        # query = 'what time is it'
         # logic for executing tasks based on query
         if 'wikipedia' in query :
             speak('searching wikipedia...')
@@ -102,9 +105,10 @@ if __name__ == '__main__':
             songs = os.listdir(music_dir)
             os.system(os.path.join(music_dir, songs[3]))
 
-        elif 'the time' in query :
+        elif 'what time is it' in query :
             speak('checking time')
             time_str = datetime.datetime.now().strftime('%H:%S:%M')
+            print(f'now the time is { time_str }')
             speak(f'now the time is { time_str }')
 
         elif 'open' in query and 'app' in query :
@@ -122,6 +126,16 @@ if __name__ == '__main__':
             except Exception as e :
                 print(e)
                 speak('sorry email send error')
+
+        elif "where is" in query:
+            data = data.split(" ")
+            location = data[2]
+            speak("Hold on Frank, I will show you where " + location + " is.")
+            os.system("chromium-browser https://www.google.nl/maps/place/" + location + "/&amp;")
+
+        else :
+            print('what can i do for you???')
+            speak('what can i do for you???')
 
 
 
