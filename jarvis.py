@@ -17,7 +17,7 @@ voices = engine.getProperty('voices')
 # for voice of girl
 # engine.setProperty('voice', voices[1])
 # for voice of boy
-engine.setProperty('voice', voices[1].id)
+engine.setProperty('voice', voices[0].id)
 
 def sendEmail(to, content):
     '''send email'''
@@ -36,11 +36,15 @@ def wishme():
     ''' it take time and wish according to time'''
     hour = int(datetime.datetime.now().hour)
     if hour>=0 and hour<12 :
+        print('good morning!')
         speak('good morning!')
     elif hour>=12 and hour<18 :
+        print('good aftrnoon!')
         speak('good aftrnoon!')
     else :
+        print('good evening!')
         speak('good evening!')
+    print('I am jarvis, how can i help you')
     speak('I am jarvis, how can i help you')
 
 def takeCommand():
@@ -53,7 +57,7 @@ def takeCommand():
 
     try:
         print('Recognizing...')
-        query = r.recognize_google(audio, Language = 'en-in')
+        query = r.recognize_google(audio, Language = 'en-US')
         print(f'User said {query}\n')
     except Exception as e:
         # print(e)
@@ -68,10 +72,10 @@ def takeCommand():
 if __name__ == '__main__':
     # main()
     wishme()
-    while True:
-    # if True :
-        query = takeCommand().lower()
-        # query = 'open terminal app'
+    # while True:
+    if True :
+        # query = takeCommand().lower()
+        query = 'open sublime app'
         # logic for executing tasks based on query
         if 'wikipedia' in query :
             speak('searching wikipedia...')
