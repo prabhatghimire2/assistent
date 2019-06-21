@@ -11,7 +11,7 @@ class Jarvis:
     """docstring for Jarvis"""
     def __init__(self):
         self.active = True
-        self.contact_list = {'prabhat': 'prabhat.ghimire2@gmail.com'}
+        self.contact_list = {'prabhat': 'prabhat.ghimire2@gmail.com', 'bikrant': 'vikrantabasyal@gmail.com'}
         self.app_list = {'sublime' : 'subl', 'blender': 'blender', 'gimp':'gimp', 'firefox':'firefox','':''}
 
         # sapi5, nsss, espeak
